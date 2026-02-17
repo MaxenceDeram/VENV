@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 import mysql.connector
 
 app = Flask(__name__)
@@ -64,7 +65,7 @@ def get_stats():
     conn = mysql.connector.connect(
         host="mysql-maxderam.alwaysdata.net",
         user="maxderam",
-        password="waren59890",
+        password="MDP",
         database="maxderam_projectclothingv1"
     )
 
@@ -91,9 +92,9 @@ def get_stats():
         "total_clients": total_clients["total_clients"]
     })
 
-
-
-
+@app.route('/')
+def home():
+    return render_template("index.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

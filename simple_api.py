@@ -29,5 +29,26 @@ def get_products():
 
     return jsonify(products)
 
+@app.route('/clients', methods=['GET'])
+def get_clients():
+    conn = mysql.connector.connect(
+        host="mysql-maxderam.alwaysdata.net",
+        user="maxderam",
+        password="waren59890",
+        database="maxderam_projectclothingv1"
+    )
+
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM clients")
+    clients = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return jsonify(clients)
+
+@app.route('/clients', methods=['POST'])
+def add_client():
+   return jsonify({'message': 'Client added successfully!'}) 
 if __name__ == "__main__":
     app.run(debug=True)

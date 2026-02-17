@@ -8,11 +8,7 @@ def hello():
 
 @app.route('/info', methods=['GET'])
 def info():
-    return jsonify({
-        'app': 'Simple API',
-        'version': '1.0',
-        'author': 'Maxence'
-    })
+    return jsonify({ 'jaime trop les filles': 'je suis un homme'    })
 
 if __name__ == "__main__":
     app.run(debug=True)

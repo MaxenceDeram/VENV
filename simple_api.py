@@ -1,5 +1,4 @@
 from flask import Flask, jsonify, request
-from flask import Flask, jsonify, request, render_template
 import mysql.connector
 
 app = Flask(__name__)
@@ -70,31 +69,6 @@ def get_stats():
     )
 
     cursor = conn.cursor(dictionary=True)
-
-    # nombre total de produits
-    cursor.execute("SELECT COUNT(*) AS total_products FROM catalog")
-    total_products = cursor.fetchone()
-
-    # valeur totale du stock
-    cursor.execute("SELECT SUM(stock * price_eur) AS stock_value FROM catalog")
-    stock_value = cursor.fetchone()
-
-    # nombre total de clients
-    cursor.execute("SELECT COUNT(*) AS total_clients FROM clients")
-    total_clients = cursor.fetchone()
-
-    cursor.close()
-    conn.close()
-
-    return jsonify({
-        "total_products": total_products["total_products"],
-        "stock_value_eur": stock_value["stock_value"],
-        "total_clients": total_clients["total_clients"]
-    })
-
-@app.route('/')
-def home():
-    return render_template("index.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

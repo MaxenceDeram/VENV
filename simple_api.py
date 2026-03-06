@@ -31,25 +31,47 @@ def get_products():
 
 @app.route('/clients', methods=['GET'])
 def get_clients():
+    # Connexion à la base de données
     conn = mysql.connector.connect(
         host="mysql-maxderam.alwaysdata.net",
         user="maxderam",
-        password="MDP",
+        password="waren59890",
         database="maxderam_projectclothingv1"
     )
 
+    # Récupération des clients
     cursor = conn.cursor(dictionary=True)
     cursor.execute("SELECT * FROM clients")
     clients = cursor.fetchall()
 
+    # Fermeture de la connexion
     cursor.close()
     conn.close()
 
+    # Retour des clients au format JSONS
     return jsonify(clients)
 
+# Routes pour ajouter, mettre à jour et supprimer des clients
 @app.route('/clients', methods=['POST'])
 def add_client():
-   return jsonify({'message': 'Client added successfully!'}) 
+    data = request.get_json()
+    # Ici, vous pouvez ajouter le code pour insérer les données dans la base de données
+    conn = mysql.connector.connect(
+        host="mysql-maxderam.alwaysdata.net",
+        user="maxderam",
+        password="waren59890",
+        database="maxderam_projectclothingv1"
+    )
+    
+    cursor = conn.cursor()# Relie la connexion à la base de données et crée un curseur pour exécuter des requêtes SQL
+    cursor.execute ("INSERT INTO clients (first_name, last_name, email, phone, city, country) VALUES (%s, %s, %s, %s, %s, %s)",
+        (data['first_name'], data['last_name'], data['email'], data['phone'], data['city'], data['country']) 
+    )
+    
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return jsonify({'message': 'Client added successfully!'}) 
 
 @app.route('/clients', methods=['PUT'])
 def update_client():

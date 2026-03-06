@@ -1,5 +1,8 @@
+from typing import Any
+
 from flask import Flask, jsonify, request
 import mysql.connector
+from mysql.connector.abstracts import MySQLCursorAbstract
 
 app = Flask(__name__)
 
@@ -35,7 +38,7 @@ def get_clients():
     conn = mysql.connector.connect(
         host="mysql-maxderam.alwaysdata.net",
         user="maxderam",
-        password="waren59890",
+        password="MDP",
         database="maxderam_projectclothingv1"
     )
 
@@ -59,7 +62,7 @@ def add_client():
     conn = mysql.connector.connect(
         host="mysql-maxderam.alwaysdata.net",
         user="maxderam",
-        password="waren59890",
+        password="MDP",
         database="maxderam_projectclothingv1"
     )
     
@@ -73,13 +76,40 @@ def add_client():
     conn.close()
     return jsonify({'message': 'Client added successfully!'}) 
 
-@app.route('/clients', methods=['PUT'])
-def update_client():
-   return jsonify({'message': 'Client updated successfully!'}) 
+@app.route('/clients/<int:client_id>', methods=['PUT'])
+def update_client(client_id):
+    data = request.get_json()
+    conn = mysql.connector.connect(
+        host="mysql-maxderam.alwaysdata.net",
+        user="maxderam",
+        password="MDP",
+        database="maxderam_projectclothingv1"
+    )
+    cursor = conn.cursor()
+    cursor.execute(
+        "UPDATE clients SET first_name = %s, last_name = %s, email = %s, phone = %s, city = %s, country = %s WHERE client_id = %s",
+        (data['first_name'], data['last_name'], data['email'], data['phone'], data['city'], data['country'], client_id)
+    )
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return jsonify({'message': 'Client updated successfully!'})
 
-@app.route('/clients', methods=['PUT'])
-def delete_client():
-   return jsonify({'message': 'Client deleted successfully!'})
+@app.route('/clients/<int:client_id>', methods=['DELETE'])
+def delete_client(client_id):
+    conn = mysql.connector.connect(
+        host="mysql-maxderam.alwaysdata.net",
+        user="maxderam",
+        password="MDP",
+        database="maxderam_projectclothingv1"
+    )
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM clients WHERE client_id = %s", (client_id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+   
+    return jsonify({'message': 'Client deleted successfully!'})
 
 @app.route('/stats', methods=['GET'])
 def get_stats():

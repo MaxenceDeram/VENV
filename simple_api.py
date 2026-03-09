@@ -10,7 +10,7 @@ app = Flask(__name__)
 def hello():
     return jsonify({'message': 'Hello, World!'})
 
-@app.route('/info', methods=['GET'])
+@app.route('/info', methods=['GET'])# Route pour obtenir des informations sur l'API
 def info():
     return jsonify({'jaime trop les filles': 'je suis un homme'})
 

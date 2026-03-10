@@ -1,10 +1,12 @@
 from typing import Any
 
 from flask import Flask, jsonify, request
+import flask_cors
 import mysql.connector
 from mysql.connector.abstracts import MySQLCursorAbstract
 
 app = Flask(__name__)
+flask_cors.CORS(app)
 
 @app.route('/hello', methods=['GET'])
 def hello():

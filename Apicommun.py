@@ -1,10 +1,10 @@
 import mysql.connector
-import flask_cors
+
 from flask import Flask, jsonify
 from flask import request
 
 app = Flask(__name__)
-flask_cors.CORS(app)
+
 
 db_config = {          
     'host': 'mysql-maxderam.alwaysdata.net',      

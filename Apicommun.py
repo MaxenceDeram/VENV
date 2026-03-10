@@ -9,7 +9,7 @@ app = Flask(__name__)
 db_config = {          
     'host': 'mysql-maxderam.alwaysdata.net',      
     'user': 'username',           
-    'password': 'motdepasse',      
+    'password': 'password',      
     'database': 'maxderam_projectclothingv1' 
 
 }

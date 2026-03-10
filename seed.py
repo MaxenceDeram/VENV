@@ -1,9 +1,10 @@
 import mysql.connector
 
 mydb = mysql.connector.connect(
-  host="localhost",
-  user="root",
-  password="root"
+  host="mysql-maxderam.alwaysdata.net",
+        user="maxderam",
+        password="MDP",
+        database="maxderam_projectclothingv1"
 )
 
 mycursor = mydb.cursor()

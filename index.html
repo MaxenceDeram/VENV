@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake Store</title>
+</head>
+
+<body>
+
+    <section>
+        <h2>Fake Store API Products</h2>
+        <div id="products-list"></div>
+    </section>
+
+    <script>
+        const productsList = document.getElementById('products-list');
+
+        fetch('http://127.0.0.1:5000/products')
+            .then(response => response.json())
+            .then(products => {
+
+                products.forEach(product => {
+
+                    const productElement = document.createElement('div');
+
+                    productElement.innerHTML = `
+                        <h3>${product.product_name}</h3>
+                        <p>${product.category}</p>
+                        <p>Price: $${product.price_eur}</p>
+                        <p>Couleur: ${product.color}</p>
+                        <img src="${product.image}" alt="${product.title}" width="100">
+                    `;
+
+                    productsList.appendChild(productElement);
+
+                });
+
+            })
+            .catch(error => console.error('Error fetching products:', error));
+    </script>
+
+</body>
+</html>

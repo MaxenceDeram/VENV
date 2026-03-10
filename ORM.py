@@ -1,3 +1,6 @@
+import mysql
+
+
 class ORM:
     def __init__(self, host, user, password, database):
         self.host = host
@@ -24,6 +27,6 @@ class ORM:
         mycursor.execute(f"SELECT * FROM {table}")
         return mycursor.fetchall()
 
-my_orm = ORM(host="localhost", user="root", password="root", database="api_example")
+my_orm = ORM(host="mysql-maxderam.alwaysdata.net", user="maxderam", password="MDP", database="api_example")
 my_orm.connect()
 my_orm.select_all("users")

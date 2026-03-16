@@ -3,7 +3,7 @@ from ORM import ORM
 orm = ORM(
     host="mysql-maxderam.alwaysdata.net",
     user="maxderam_prune",
-    password="Prune59.",
+    password="MDP",
     database="maxderam_projectclothingv1"
 )
 

@@ -1,3 +1,5 @@
+# This script is used to seed the database with initial data for testing purposes. (en cours)
+
 import mysql.connector
 
 mydb = mysql.connector.connect(

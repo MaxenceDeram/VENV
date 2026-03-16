@@ -3,7 +3,7 @@ from ORM import ORM
 orm = ORM(
     host="mysql-maxderam.alwaysdata.net",
     user="maxderam_prune",
-    password="PASSWORD",
+    password="Prune59.",
     database="maxderam_projectclothingv1"
 )
 
@@ -22,4 +22,8 @@ new_product = {
     "price_eur":"29.99",
     "stock": 100
 }
-print(orm.insert("catalog", new_product))       
+print(orm.insert("catalog", new_product))    
+
+# Supprimer un élément
+print(orm.delete("catalog", "product_id", 0))
+    

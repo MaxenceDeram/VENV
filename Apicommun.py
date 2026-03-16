@@ -1,5 +1,6 @@
 import mysql.connector
 from flask import Flask, jsonify, request
+from Entities.Clients import Clients
 
 app = Flask(__name__)
 
@@ -189,6 +190,56 @@ def supprimer_vetement(product_id):
             return jsonify({"message": "Produit introuvable"}), 404
 
         return jsonify({"message": "Produit supprimé"}), 200
+
+    except mysql.connector.Error as err:
+        return jsonify({"erreur": str(err)}), 500
+
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+@app.route('/clients', methods=['GET'])
+def recuperer_clients():
+
+    conn = None
+    cursor = None
+
+    try:
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("SELECT * FROM clients")
+        rows = cursor.fetchall()
+
+        clients = []
+
+        for row in rows:
+            client = Clients(
+                row["client_id"],
+                row["first_name"],
+                row["last_name"],
+                row["email"],
+                row["phone"],
+                row["city"],
+                row["country"],
+                row["created_at"]
+            )
+            print(client.get_email())
+            
+            clients.append({
+                "client_id": client.get_client_id(),
+                "first_name": client.get_first_name(),
+                "last_name": client.get_last_name(),
+                "email": client.get_email(),
+                "phone": client.get_phone(),
+                "city": client.get_city(),
+                "country": client.get_country(),
+                "created_at": client.get_created_at()
+            })
+
+        return jsonify(clients)
 
     except mysql.connector.Error as err:
         return jsonify({"erreur": str(err)}), 500

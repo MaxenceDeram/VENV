@@ -1,11 +1,30 @@
 import pandas as pd
+import mysql.connector
 from sklearn.linear_model import LinearRegression
 
-# 1. Lire le fichier CSV
-df = pd.read_csv("clothing_clients_100.csv")
+# 1. Connexion à la base, requête SQL pour récupérer les données nécessaires
+conn = mysql.connector.connect(
+    host="mysql-maxderam.alwaysdata.net",
+    user="maxderam_prune",
+    password="Prune59.",
+    database="maxderam_projectclothingv1"
+)
+query = """
+SELECT height_cm, weight_kg, size_code
+FROM clients
+WHERE height_cm IS NOT NULL
+  AND weight_kg IS NOT NULL
+  AND size_code IS NOT NULL
+"""
 
-# 2. Choisir les colonnes d'entrée (X) et la colonne à prédire (y)
-X = df[["height_cm", "weight_kg"]]
+# 2. Charger dans un DataFrame
+df = pd.read_sql(query, conn)
+conn.close()
+
+print("Nombre de lignes utilisées :", len(df))
+
+# 2. Choisir les colonnes d'entrée (X) et la colonne à prédire (y))
+X = df[["height_cm", "weight_kg", "bmi", "age"]]
 y = df["size_code"]
 
 # 3. Créer le modèle
